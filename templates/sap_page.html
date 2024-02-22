@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+  <style>
+    /* Add CSS for loading animation and error message */
+    .loading-spinner {
+      border: 16px solid #f3f3f3;
+      border-top: 16px solid #3498db;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 4s linear infinite;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+
+    .error-message {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+<main>
+  <div class="loading-spinner"></div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    /* Attempt to connect to SAP ERP */
+    $.ajax({
+        url: "{{ url_for('check_sap_availability') }}",
+        type: "POST",
+        success: function(response) {
+            if (response.status === "ok") {
+                // Redirect to dashboard or relevant page
+                window.location.href = "{{ url_for('sap_url') }}";
+            } else {
+                // Display error message
+                displayErrorMessage(response.message);
+            }
+        },
+        error: function() {
+            // Handle network errors
+            displayErrorMessage("Network error occurred. Please try again later.");
+        }
+    });
+
+    function displayErrorMessage(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'System Unavailable',
+            text: message,
+            showConfirmButton: true,
+            confirmButtonText: 'Try Again',
+            confirmButtonColor: '#af1010',
+        }).then(() => {
+            window.location.href = "{{ url_for('index') }}";  // Redirect to home page after displaying the message
+        });
+    }
+</script>
+
+</main>
+
+{% endblock %}
+

@@ -1,0 +1,16 @@
+# Fichiers Python compilés
+*.pyc
+__pycache__/
+
+# Fichiers de configuration
+instance/
+.env
+
+# Fichiers de logs
+*.log
+
+# Fichiers de cache
+*.cache
+
+# Fichiers d'environnement virtuel
+venv/
