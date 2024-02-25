@@ -1,6 +1,7 @@
 # Fichiers Python compilés
 *.pyc
 __pycache__/
+.idea
 
 # Fichiers de configuration
 instance/
@@ -16,3 +17,5 @@ instance/
 venv/
 
 attachments/
+
+ref.txt
