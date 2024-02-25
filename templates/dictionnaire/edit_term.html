@@ -5,16 +5,33 @@
     <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
       <h3 class="text-2xl font-bold mb-4">Edit Term</h3>
       <hr class="mb-4">
-
-      <form method="post" action="{{ url_for('edit_term', id=datas.id) }}">
+        {% if errors %}
+          <div class="bg-gray-100 p-2 rounded-md flex flex-col items-center justify-center">
+            {% for error in errors %}
+            <p class="text-red-500">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                {% if category %}
+                  <div class="bg-red-500 text-white font-bold px-4 py-2 rounded-md mb-2 text-center w-full max-w-2xl mx-auto">
+                    <p>{{ message }}</p>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+      <form method="post" action="{{ url_for('edit_term', id=term.id) }}">
         <div class="mb-4">
           <label for="term" class="block text-gray-700 font-medium mb-2">Term</label>
-          <input type="text" id="term" name="term" required class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ datas.term }}">
+          <input type="text" id="term" name="term" required class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ term.term }}">
         </div>
 
         <div class="mb-4">
           <label for="definition" class="block text-gray-700 font-medium mb-2">Definition</label>
-          <textarea id="definition" name="definition" required rows="13" class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-y" >{{ datas.definition }}</textarea>
+          <textarea id="definition" name="definition" required rows="13" class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-y" >{{ term.definition }}</textarea>
         </div>
         <div class="text-center">
             <a href="{{ url_for('dictionnaire') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</a>
